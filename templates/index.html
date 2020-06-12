@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> -->
+  <title>AutoAI Covid Test Prediction</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/styles.css') }}">
+</head>
+
+<body >
+
+
+
+  <div class="jumbotron text-center bg-image ">
+    <div class="title-bg">
+      <h1 >Covid-19 Exam Analyzer</h1>
+      <h4 >Estimation by IBM Watson Machine Learning and AutoAI.</h4>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-12">
+        <form method="POST" action="/predict">
+          <div class="personal-data-block">
+            <h4 class="table-label pb-4">Patient Information</h4>
+            <div class="container">
+              <div class="row">
+                <div class="col-4 pl-0">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Age</label>
+                            <input class="form-control" type="number" name="patient_age_quantile" min="0" max="100"  required>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Admited to Regular Care</label>
+                            <select class="form-control" name="patient_addmited_to_regular" required>
+                              <option value="1">Yes</option>
+                              <option value="0" selected >No</option>
+                            </select>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-4">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Admited to Semi-Intense Care</label>
+                            <select class="form-control" name="patient_addmited_to_semi_intense">
+                              <option value="1">Yes</option>
+                              <option value="0" selected>No</option>
+                            </select>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Admited to Intense Care</label>
+                            <select class="form-control" name="patient_addmited_to_intense">
+                              <option value="1">Yes</option>
+                              <option value="0" selected>No</option>
+                            </select>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="third" align="left">
+          <div class="blood-test-block">
+            <h4 class="table-label pb-4">Blood Test Data</h4>
+            <div class="container">
+              <div class="row">
+                <div class="col-4 pl-0">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Platelets</label>
+                            <input class="form-control" type="number" name="platelets" min="-10" max="10"  step="0.0000000001" required>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Mean Platelet Volume</label>
+                            <input class="form-control" type="number" name="mean_platelet_volume" min="-10" max="10"  step="0.0000000001" required>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Red Blood Cells</label>
+                            <input class="form-control" type="number" name="red_blood_cells" min="-10" max="10"  step="0.0000000001" required>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Lymphocytes</label>
+                            <input class="form-control" type="number" name="lymphocytes" min="-10" max="10"  step="0.0000000001" required>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-4">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Mean Corpuscular Hemoglobin Concentration</label>
+                            <input class="form-control" type="number" name="mean_corpuscular_hemoglobin_concentration" min="-10" max="10"
+                               step="0.0000000001" required>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Leukocytes</label>
+                            <input class="form-control" type="number" name="leukocytes" min="-10" max="10"  step="0.0000000001" required>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Basophils</label>
+                            <input class="form-control" type="number" name="basophils" min="-10" max="10"  step="0.0000000001" required>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Eosinophils</label>
+                            <input class="form-control" type="number" name="eosinophils" min="-10" max="10"  step="0.0000000001" required>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="col-4 pr-0">
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Mean Corpuscular Volum</label>
+                            <input class="form-control" type="number" name="mean_corpuscular_volum" min="-10" max="10" 
+                              step="0.0000000001" required>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Monocytes</label>
+                            <input class="form-control" type="number" name="monocytes" min="-10" max="10"  step="0.0000000001" required>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Red Blood Cell Distribution Width</label>
+                            <input class="form-control" type="number" name="red_blood_cell_distribution_width" min="-10" max="10" 
+                              step="0.0000000001" required>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="form-group">
+                            <label>Antigen</label>
+                            <select class="form-control" name="antigen" required>
+                              <option value="1">Yes</option>
+                              <option value="0" selected>No</option>
+                            </select>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!--container-->
+          </div>
+          <!--blood-->
+
+          <div class="form-btns">
+            <button type="submit" class="btn btn-success submit-btn" name="submit" type="submit"
+              onclick="startSpinner()" value="Predict">Predict</button>
+            <button type="reset" class="btn btn-warning">Reset</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="col-4 float-results">
+        <div class="card text-center">
+          <div class="card-body">
+            <div class="d-flex justify-content-center">
+              <div id="loader" style="color:black; display: none;" class="spinner-border"></div>
+            </div>
+            <h5 class="card-title">Test Result:</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">{{ form.abc }}</li>
+            <li class="list-group-item">{{ form.confi }}</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <script>
+
+    window.onload = function exampleFunction() {
+
+      // var output = document.getElementById("output");
+      // output.style.display = "none"
+    }
+
+    function startSpinner() {
+      var x = document.getElementById("loader");
+      x.style.display = "block";
+      var output = document.getElementById("output");
+      output.style.display = "none"
+      setTimeout(function () {
+        var y = document.getElementById("output");
+        var x = document.getElementById("loader");
+        var a = document.getElementById("a");
+        var b = document.getElementById("b");
+        x.style.display = "none";
+        y.style.display = "block"
+        a.style.display = "block"
+        b.style.display = "block"
+      }, 3000);
+
+    }
+
+    //Slider Bars
+    function getValue(x, y) {
+      var slider = document.getElementById(x.toString());
+      var output = document.getElementById(y.toString());
+      console.log(x)
+
+      output.innerHTML = slider.value;
+
+      slider.oninput = function () {
+        output.innerHTML = this.value;
+      }
+    }
+
+
+
+  </script>
+
+
+
+</body>
+
+</html>
