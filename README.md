@@ -3,7 +3,7 @@
 This is a test-site that predicts de posible that a covid test result its true
 
 ## Frontend
-The front is base on HTML and CSS
+ - The frontend is base on HTML and CSS
 
 ## Backend
  - Base on python using Flask Framework
